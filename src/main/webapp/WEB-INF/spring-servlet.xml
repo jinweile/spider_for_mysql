@@ -87,5 +87,10 @@
 	
 	<!-- 启动抓取任务调度器 -->
 	<bean id="spiderTask" class="com.etaoshi.spider.job.SpiderTask" />
+	
+	<!-- spring+axis2 webservice Start -->
+	<bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
+    <bean id="helloWorld" class="com.etaoshi.spider.web.HelloWorldBean" />
+    <!-- spring+axis2 webservice End -->
 
 </beans>
