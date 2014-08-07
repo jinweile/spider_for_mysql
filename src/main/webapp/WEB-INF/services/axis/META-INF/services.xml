@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<service name="hwWebService">
+<service name="test">
     <description>axis2与spring集成案例</description>
     <!-- 通过ServiceObjectSupplier参数指定SpringServletContextObjectSupplier类来获得Spring的ApplicationContext对象 -->
     <parameter name="ServiceObjectSupplier">
