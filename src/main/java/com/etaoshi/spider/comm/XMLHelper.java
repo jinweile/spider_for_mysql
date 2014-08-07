@@ -82,9 +82,8 @@ public class XMLHelper {
 		final byte[] result = xml.getBytes(Charset.forName("GBK"));
 		//System.out.println(result);
 		
-		InsuranceExchangeServiceStub client = new InsuranceExchangeServiceStub();
-		InsuranceExchangeServiceStub.PolicyApply policyApply = new InsuranceExchangeServiceStub.PolicyApply();
-		policyApply.setUserId("00000000");
+		HwWebServiceStub client = new HwWebServiceStub();
+		HwWebServiceStub.GetMessage msg = new HwWebServiceStub.GetMessage();
 		DataHandler param = new DataHandler(new DataSource() {  
             public InputStream getInputStream() {  
                 return new ByteArrayInputStream(result);  
@@ -99,16 +98,16 @@ public class XMLHelper {
                 return "";  
             }  
         });
-		policyApply.setPolicyApplyMessage(param);
-		InsuranceExchangeServiceStub.PolicyApplyResponse response = client.policyApply(policyApply);
-		InputStream is = response.getResponseMessage().getInputStream();
+		msg.setMsg(param);
+		HwWebServiceStub.GetMessageResponse response = client.getMessage(msg);
+		InputStream is = response.get_return().getInputStream();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
 		int readcount = 0;
 		while((readcount = is.read(buffer, 0, buffer.length)) > 0){
 			baos.write(buffer, 0, readcount);
 		}
-		String xml_result = new String(baos.toByteArray(),Charset.forName("UTF-8"));
+		String xml_result = new String(baos.toByteArray(),Charset.forName("GBK"));
 		System.out.println(xml_result);
 	}
 }
