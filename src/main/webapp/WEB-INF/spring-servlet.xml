@@ -91,6 +91,7 @@
 	<!-- spring+axis2 webservice Start -->
 	<bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
     <bean id="helloWorld" class="com.etaoshi.spider.web.HelloWorldBean" />
+    <bean id="send" class="com.etaoshi.spider.web.Send" />
     <!-- spring+axis2 webservice End -->
 
 </beans>
