@@ -70,8 +70,8 @@ public class send {
 			HttpEntity resEntity = res.getEntity();
 			if (resEntity != null) {
 				responseMessage = convertStreamToString(resEntity.getContent()) ;
-				System.out.println("=========================================== 发送数据：" + content);
-				System.out.println("=========================================== 结果数据：" + responseMessage);
+				System.out.println("发送数据：" + content);
+				System.out.println("结果数据：" + responseMessage);
 			}
 			
 		} catch (KeyStoreException e) {
