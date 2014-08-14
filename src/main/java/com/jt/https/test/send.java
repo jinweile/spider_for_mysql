@@ -1,12 +1,16 @@
 package com.jt.https.test;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -14,6 +18,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,6 +32,9 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import com.etaoshi.spider.comm.TestStub;
+import com.etaoshi.spider.comm.ToolsUtils;
 
 public class send {
 	public static String PostTo(String content){
@@ -38,11 +48,13 @@ public class send {
 			KeyStore keystore = KeyStore.getInstance("jks");
 			KeyStore trustStore = KeyStore.getInstance("jks");
 
-			FileInputStream keystoreInstream = new FileInputStream(new File("F:\\temp\\平安证书\\lz\\pingan2jiangtai_test.jks"));
-			FileInputStream trustStoreInstream = new FileInputStream(new File("F:\\temp\\平安证书\\lz\\pingan2jiangtai_test_trust.jks"));
+			FileInputStream keystoreInstream = new FileInputStream(new File("F:\\temp\\平安证书\\lz\\测试\\bis-stg-sdb.jks"));
+			FileInputStream trustStoreInstream = new FileInputStream(new File("F:\\temp\\平安证书\\lz\\测试\\EXV_GROUP_BIS_IFRONT_JTLZX_100.jks"));
+			//FileInputStream keystoreInstream = new FileInputStream(new File("F:\\temp\\平安证书\\lz\\测试\\pingan2jiangtai_test.jks"));
+			//FileInputStream trustStoreInstream = new FileInputStream(new File("F:\\temp\\平安证书\\lz\\测试\\pingan2jiangtai_test_trust.jks"));
 			try {
 				keystore.load(keystoreInstream, "123456".toCharArray());
-				trustStore.load(trustStoreInstream, "123456".toCharArray());
+				trustStore.load(trustStoreInstream, "paic1234".toCharArray());
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (CertificateException e) {
@@ -59,10 +71,10 @@ public class send {
 							return true;
 						}
 					}, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-			Scheme sch = new Scheme("https", 8007, socketFactory);
+			Scheme sch = new Scheme("https", 8107, socketFactory);
 
 			httpclient.getConnectionManager().getSchemeRegistry().register(sch);
-			HttpPost post = new HttpPost("https://222.68.184.181:8007");
+			HttpPost post = new HttpPost("https://222.68.184.181:8107");
 
 			StringEntity entity = new StringEntity(content, "text/html", "UTF-8");
 			post.setEntity(entity);
@@ -123,8 +135,33 @@ public class send {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ChinaTourinsApply xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Head><UserId>0000000000</UserId><CommandId>CTAA0001</CommandId><SeqNo>JT2014_0000000263863</SeqNo></Head><Body><Apply><ApplyId>1201201407256948</ApplyId><TravelAgencyInfo><Id>1129035</Id><Name>临安友好旅行社有限公司</Name><Address>临安市锦城街道临天八弄45号一楼</Address><Zipcode>310000</Zipcode><Telphone>0571-63700288</Telphone><License>L-ZJ00295</License><OrgCode>79093228-2</OrgCode><OutboundTourismCredentials>N</OutboundTourismCredentials><LastYearTouristAmount>0.0</LastYearTouristAmount><LastYearRevenue>0-600万元</LastYearRevenue><last3YearAccidents>N</last3YearAccidents><Last1YearAccidentsFee>0.0</Last1YearAccidentsFee><Last2YearAccidentsFee>0.0</Last2YearAccidentsFee><Last3YearAccidentsFee>0.0</Last3YearAccidentsFee><Contact><Name>沈亚平</Name><Telphone>0571-63700288</Telphone><Mail>385816647@qq.ocm</Mail><Fax>0571-63700288</Fax></Contact><Branches /><Location><ProvinceId>12</ProvinceId><ProvinceName>浙江省</ProvinceName><CityId>1201</CityId><CityName>杭州</CityName></Location><Properties><Key Name=\"LastApplyNo\" /><Key Name=\"LastPolicyNo\" /><Key Name=\"NewNum\" /><Key Name=\"NewLocation\" /></Properties><Last1YearPolicyNoList><Last1YearPolicyNoInfo><UserId /><PolicyNo /></Last1YearPolicyNoInfo></Last1YearPolicyNoList></TravelAgencyInfo><InsurancePolicyInfo><BeginDate>20140801</BeginDate><EndDate>20141231</EndDate><InsuranceDays>153</InsuranceDays><Renewal>N</Renewal><IssuingCompanyId>2014004</IssuingCompanyId><IssuingCompanyName>中国人民财产保险股份有限公司杭州市分公司</IssuingCompanyName><IssuingGeneralCompanyName>中国人民财产保险股份有限公司</IssuingGeneralCompanyName><RetroactiveDate>20140801</RetroactiveDate><MainInsurance><EachAccidentLiabilityLimit>20141000</EachAccidentLiabilityLimit><EachAccidentEveryLiabilityLimit>20142004</EachAccidentEveryLiabilityLimit><Properties><Key Name=\"MainPremium\">3135.4509</Key></Properties></MainInsurance><AdditionalInfo><Properties /></AdditionalInfo><PayDate>20140730</PayDate><PremiumInfo><PremiumAdjustmentFactor><YearTouristAmountRatio>-0.15</YearTouristAmountRatio><DistrictRatio>0</DistrictRatio><EachAccidentEveryLiabilityLimitRatio>0.1</EachAccidentEveryLiabilityLimitRatio><LossRatio>0</LossRatio><PreviousLossRatio>0</PreviousLossRatio><AdditionalRatio>0</AdditionalRatio><RiskControlRatio>0</RiskControlRatio><LoyaltyRatio>0</LoyaltyRatio><CoverageRateSystem>0</CoverageRateSystem><DatePreferentialRatio /></PremiumAdjustmentFactor><PremiumDistribution><TotalPremium>3135.45</TotalPremium><Distribution><RenBao CompanyId=\"2014004\">1442.30</RenBao><TaiBao CompanyId=\"2014058\">501.67</TaiBao><RenShou CompanyId=\"2014049\">250.84</RenShou><PingAn CompanyId=\"2014060\">344.90</PingAn><DaDi CompanyId=\"2014045\">282.19</DaDi><TaiPing CompanyId=\"2014039\">313.55</TaiPing></Distribution></PremiumDistribution><PremiumAdjust><RiskControl>0</RiskControl><Prepaid /></PremiumAdjust></PremiumInfo></InsurancePolicyInfo></Apply></Body></ChinaTourinsApply>";
-		PostTo(xml);
+		//final String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ChinaTourinsApply xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Head><UserId>0000000000</UserId><CommandId>CTAA0001</CommandId><SeqNo>JT2014_0000000263863</SeqNo></Head><Body><Apply><ApplyId>1201201407256948</ApplyId><TravelAgencyInfo><Id>1129035</Id><Name>临安友好旅行社有限公司</Name><Address>临安市锦城街道临天八弄45号一楼</Address><Zipcode>310000</Zipcode><Telphone>0571-63700288</Telphone><License>L-ZJ00295</License><OrgCode>79093228-2</OrgCode><OutboundTourismCredentials>N</OutboundTourismCredentials><LastYearTouristAmount>0.0</LastYearTouristAmount><LastYearRevenue>0-600万元</LastYearRevenue><last3YearAccidents>N</last3YearAccidents><Last1YearAccidentsFee>0.0</Last1YearAccidentsFee><Last2YearAccidentsFee>0.0</Last2YearAccidentsFee><Last3YearAccidentsFee>0.0</Last3YearAccidentsFee><Contact><Name>沈亚平</Name><Telphone>0571-63700288</Telphone><Mail>385816647@qq.ocm</Mail><Fax>0571-63700288</Fax></Contact><Branches /><Location><ProvinceId>12</ProvinceId><ProvinceName>浙江省</ProvinceName><CityId>1201</CityId><CityName>杭州</CityName></Location><Properties><Key Name=\"LastApplyNo\" /><Key Name=\"LastPolicyNo\" /><Key Name=\"NewNum\" /><Key Name=\"NewLocation\" /></Properties><Last1YearPolicyNoList><Last1YearPolicyNoInfo><UserId /><PolicyNo /></Last1YearPolicyNoInfo></Last1YearPolicyNoList></TravelAgencyInfo><InsurancePolicyInfo><BeginDate>20140801</BeginDate><EndDate>20141231</EndDate><InsuranceDays>153</InsuranceDays><Renewal>N</Renewal><IssuingCompanyId>2014004</IssuingCompanyId><IssuingCompanyName>中国人民财产保险股份有限公司杭州市分公司</IssuingCompanyName><IssuingGeneralCompanyName>中国人民财产保险股份有限公司</IssuingGeneralCompanyName><RetroactiveDate>20140801</RetroactiveDate><MainInsurance><EachAccidentLiabilityLimit>20141000</EachAccidentLiabilityLimit><EachAccidentEveryLiabilityLimit>20142004</EachAccidentEveryLiabilityLimit><Properties><Key Name=\"MainPremium\">3135.4509</Key></Properties></MainInsurance><AdditionalInfo><Properties /></AdditionalInfo><PayDate>20140730</PayDate><PremiumInfo><PremiumAdjustmentFactor><YearTouristAmountRatio>-0.15</YearTouristAmountRatio><DistrictRatio>0</DistrictRatio><EachAccidentEveryLiabilityLimitRatio>0.1</EachAccidentEveryLiabilityLimitRatio><LossRatio>0</LossRatio><PreviousLossRatio>0</PreviousLossRatio><AdditionalRatio>0</AdditionalRatio><RiskControlRatio>0</RiskControlRatio><LoyaltyRatio>0</LoyaltyRatio><CoverageRateSystem>0</CoverageRateSystem><DatePreferentialRatio /></PremiumAdjustmentFactor><PremiumDistribution><TotalPremium>3135.45</TotalPremium><Distribution><RenBao CompanyId=\"2014004\">1442.30</RenBao><TaiBao CompanyId=\"2014058\">501.67</TaiBao><RenShou CompanyId=\"2014049\">250.84</RenShou><PingAn CompanyId=\"2014060\">344.90</PingAn><DaDi CompanyId=\"2014045\">282.19</DaDi><TaiPing CompanyId=\"2014039\">313.55</TaiPing></Distribution></PremiumDistribution><PremiumAdjust><RiskControl>0</RiskControl><Prepaid /></PremiumAdjust></PremiumInfo></InsurancePolicyInfo></Apply></Body></ChinaTourinsApply>";
+		
+		final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ChinaTourinsResponse><Head><UserId>String</UserId><CommandId>String</CommandId><SeqNo>String</SeqNo><Ref-SeqNo>String</Ref-SeqNo></Head><Body><Apply><ApplyId>String</ApplyId><TravelAgencyId>String</TravelAgencyId><ResponseCode>String</ResponseCode><ResponseMessage>String</ResponseMessage><PolicyNo>String</PolicyNo><UpdateNo>String</UpdateNo><Fee>String</Fee><IssuingDate>String</IssuingDate><ElectricalDocument>String</ElectricalDocument></Apply></Body><IssuingCompany><Name>String</Name><Address>String</Address><Zipcode>String</Zipcode><Telphone>String</Telphone><Contact><Name>String</Name><Telphone>String</Telphone><Mail>String</Mail><Fax>String</Fax></Contact><Ccheck>String</Ccheck><Cbill>String</Cbill><Agent>String</Agent></IssuingCompany></ChinaTourinsResponse>";
+		
+		WebInsuranceExchangeStub client = new WebInsuranceExchangeStub("http://localhost/exchange/webservices/webInsuranceExchange");
+		com.jt.https.test.WebInsuranceExchangeStub.PolicyApplyConfirm post = new com.jt.https.test.WebInsuranceExchangeStub.PolicyApplyConfirm();
+		post.setUserId("");
+		DataHandler param = new DataHandler(new DataSource() {  
+            public InputStream getInputStream() {  
+                return new ByteArrayInputStream(xml.getBytes(Charset.forName("UTF-8")));  
+            }  
+            public OutputStream getOutputStream() {  
+                return null;  
+            }  
+            public String getContentType() {  
+                return "";  
+            }  
+            public String getName() {  
+                return "";  
+            }  
+        });
+		post.setConfirmMessage(param);
+		com.jt.https.test.WebInsuranceExchangeStub.PolicyApplyConfirmResponse response = client.policyApplyConfirm(post);
+		InputStream is = response.getResponseMessage().getInputStream();
+		String xml_result = ToolsUtils.ConvertStreamToString(is);
+		System.out.println(xml_result);
+		//PostTo(xml);
 	}
 	
 }

@@ -2,9 +2,11 @@ package com.etaoshi.spider.comm;
 
 import java.util.Date;
 import java.util.Properties;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -112,7 +114,7 @@ public class ToolsUtils {
 	}
 
 	/**
-	 * InputStream转String
+	 * InputStream转String <font color="red">，通过ByteArrayOutputStream实现</font>
 	 * 
 	 * @param is
 	 * @return
@@ -125,6 +127,23 @@ public class ToolsUtils {
 			baos.write(i);
 		}
 		return baos.toString();
+	}
+
+	/**
+	 * InputStream转String <font color="red">，通过BufferedReader实现</font>
+	 * 
+	 * @param is
+	 * @return
+	 * @throws IOException 
+	 */
+	public static String ConvertStreamToString(InputStream is) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			sb.append(line + "\n");
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -176,10 +195,12 @@ public class ToolsUtils {
 	 * @return 目录结构<font color="red">D:/temp/</font>
 	 *         注：此处只能获取非jar或者war等打包的目录路径，如果路径在jar，war包中则无法获取
 	 *         如果需要获取jar，war包中的文件内容则需要通过类加载器获取，
-	 *         例：Thread.currentThread().getContextClassLoader().getResourceAsStream("xx.config") 只能加载文件流，无法加载文件
+	 *         例：Thread.currentThread().getContextClassLoader
+	 *         ().getResourceAsStream("xx.config") 只能加载文件流，无法加载文件
 	 */
 	public static String GetClassPath() {
-		String regex = GetOSName().toLowerCase().startsWith("window") ? "^file:/" : "^file:";
+		String regex = GetOSName().toLowerCase().startsWith("window") ? "^file:/"
+				: "^file:";
 
 		String loader_path = Thread.currentThread().getContextClassLoader()
 				.getClass().getResource("/").toString().replaceAll(regex, "");
@@ -230,9 +251,10 @@ public class ToolsUtils {
 
 		return path;// vfs:/在jboss中将会加入此前缀，需要过滤
 	}
-	
+
 	/**
 	 * 把汉字转成unicode型编码
+	 * 
 	 * @param s
 	 * @return
 	 */
@@ -248,9 +270,10 @@ public class ToolsUtils {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
 	 * unicode型编码转成汉字(还未测试)
+	 * 
 	 * @param theString
 	 * @return
 	 */
@@ -297,7 +320,8 @@ public class ToolsUtils {
 							value = (value << 4) + 10 + aChar - 'A';
 							break;
 						default:
-							throw new IllegalArgumentException("Malformed   \\uxxxx   encoding.");
+							throw new IllegalArgumentException(
+									"Malformed   \\uxxxx   encoding.");
 						}
 					}
 					outBuffer.append((char) value);
