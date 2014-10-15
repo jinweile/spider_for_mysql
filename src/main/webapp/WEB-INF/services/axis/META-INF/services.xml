@@ -36,4 +36,18 @@
 	            class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
 	    </messageReceivers>
 	</service>
+	<service name="dytpservice">
+	    <description>转发太平导游险接口</description>
+	    <!-- 通过ServiceObjectSupplier参数指定SpringServletContextObjectSupplier类来获得Spring的ApplicationContext对象 -->
+	    <parameter name="ServiceObjectSupplier">
+	        org.apache.axis2.extensions.spring.receivers.SpringAppContextAwareObjectSupplier
+	    </parameter>
+	    <parameter name="SpringBeanName">dytpservice</parameter>
+	    <messageReceivers>
+	        <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
+	            class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+	        <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"
+	            class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+	    </messageReceivers>
+	</service>
 </serviceGroup>
