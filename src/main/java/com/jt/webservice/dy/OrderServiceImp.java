@@ -15,13 +15,22 @@ import com.jt.webservice.dy.AcciInfServiceStub.EndorExecute;
 
 public class OrderServiceImp implements OrderService {
 
-	private String url;
+	//private String url;
 	/**
 	 * 太平导游险地址
 	 * @param url
 	 */
-	public void setUrl(String url){
+	/*public void setUrl(String url){
 		this.url = url;
+	}*/
+	
+	private AcciInfServiceStub wclient;
+	/**
+	 * 
+	 * @param wclient
+	 */
+	public void setWclient(AcciInfServiceStub wclient) {
+		this.wclient = wclient;
 	}
 
 	/**
@@ -29,7 +38,7 @@ public class OrderServiceImp implements OrderService {
 	 */
 	public String applyExecute(byte[] xml) throws Exception {
 		final byte[] xml_in = xml;
-		AcciInfServiceStub wclient = new AcciInfServiceStub(url);
+		//AcciInfServiceStub wclient = new AcciInfServiceStub(url);
         ApplyExecute obj = new ApplyExecute();
         DataHandler param = new DataHandler(new DataSource() {  
             public InputStream getInputStream() {  
@@ -59,7 +68,7 @@ public class OrderServiceImp implements OrderService {
 	 */
 	public String endorExecute(byte[] xml) throws Exception {
 		final byte[] xml_in = xml;
-		AcciInfServiceStub wclient = new AcciInfServiceStub(url);
+		//AcciInfServiceStub wclient = new AcciInfServiceStub(url);
 		EndorExecute obj = new EndorExecute();
         DataHandler param = new DataHandler(new DataSource() {  
             public InputStream getInputStream() {  

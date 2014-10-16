@@ -104,14 +104,15 @@
     <bean id="helloWorld" class="com.etaoshi.spider.web.HelloWorldBean" />
     <bean id="send" class="com.etaoshi.spider.web.Send" />
     
-	<bean id="tpserver" class="com.jt.webservice.dy.AcciInfServiceStub" />
-    <bean id="dytpservice" class="com.jt.webservice.dy.OrderServiceImp" >
-		<property name="url">
+	<bean id="tpclient" class="com.jt.webservice.dy.AcciInfServiceStub" >
+		<constructor-arg>
 			<value type="java.lang.String">${dy_tp_url}</value>
+		</constructor-arg>
+    </bean>
+    <bean id="dytpservice" class="com.jt.webservice.dy.OrderServiceImp" >
+		<property name="wclient">
+			<ref bean="tpclient"/>
 		</property>
-		<!-- <property name="wclient">
-			<value>tpserver</value>
-		</property> -->
     </bean>
     <!-- spring+axis2 webservice End -->
 
