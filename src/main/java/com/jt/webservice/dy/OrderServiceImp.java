@@ -2,6 +2,7 @@ package com.jt.webservice.dy;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,29 +37,29 @@ public class OrderServiceImp implements OrderService {
 	/**
 	 * 出单
 	 */
-	public String applyExecute(byte[] xml) throws Exception {
+	public byte[] applyExecute(byte[] xml) throws Exception {
 		final byte[] xml_in = xml;
 		//AcciInfServiceStub wclient = new AcciInfServiceStub(url);
         ApplyExecute obj = new ApplyExecute();
-        DataHandler param = new DataHandler(new DataSource() {  
-            public InputStream getInputStream() {  
-                return new ByteArrayInputStream(xml_in);  
-            }  
-            public OutputStream getOutputStream() {  
-                return null;  
-            }  
-            public String getContentType() {  
-                return "";  
-            }  
-            public String getName() {  
-                return "";  
-            }  
+        DataHandler param = new DataHandler(new DataSource() {
+            public InputStream getInputStream() {
+                return new ByteArrayInputStream(xml_in);
+            }
+            public OutputStream getOutputStream() {
+                return null;
+            }
+            public String getContentType() {
+                return "";
+            }
+            public String getName() {
+                return "";
+            }
         });
         obj.setXml(param);
         
         AcciInfServiceStub.ApplyExecuteResponse response = wclient.applyExecute(obj);
         InputStream is = response.getApplyExecuteReturn().getInputStream();
-		String xml_result = ConvertStreamToString(is);
+		byte[] xml_result = ConvertStreamToBytes(is);
 		
 		return xml_result;
 	}
@@ -66,29 +67,29 @@ public class OrderServiceImp implements OrderService {
 	/**
 	 * 契撤
 	 */
-	public String endorExecute(byte[] xml) throws Exception {
+	public byte[] endorExecute(byte[] xml) throws Exception {
 		final byte[] xml_in = xml;
 		//AcciInfServiceStub wclient = new AcciInfServiceStub(url);
 		EndorExecute obj = new EndorExecute();
-        DataHandler param = new DataHandler(new DataSource() {  
-            public InputStream getInputStream() {  
-                return new ByteArrayInputStream(xml_in);  
-            }  
-            public OutputStream getOutputStream() {  
-                return null;  
-            }  
-            public String getContentType() {  
-                return "";  
-            }  
-            public String getName() {  
-                return "";  
-            }  
+        DataHandler param = new DataHandler(new DataSource() {
+            public InputStream getInputStream() {
+                return new ByteArrayInputStream(xml_in);
+            }
+            public OutputStream getOutputStream() {
+                return null;
+            }
+            public String getContentType() {
+                return "";
+            }
+            public String getName() {
+                return "";
+            }
         });
         obj.setXml(param);
         
         AcciInfServiceStub.EndorExecuteResponse response = wclient.endorExecute(obj);
         InputStream is = response.getEndorExecuteReturn().getInputStream();
-		String xml_result = ConvertStreamToString(is);
+        byte[] xml_result = ConvertStreamToBytes(is);
 		
 		return xml_result;
 	}
@@ -99,14 +100,13 @@ public class OrderServiceImp implements OrderService {
 	 * @return
 	 * @throws IOException
 	 */
-	private static String ConvertStreamToString(InputStream is) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			sb.append(line + "\n");
+	private static byte[] ConvertStreamToBytes(InputStream is) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int i = -1;
+		while ((i = is.read()) != -1) {
+			baos.write(i);
 		}
-		return sb.toString();
+		return baos.toByteArray();
 	}
 	
 }

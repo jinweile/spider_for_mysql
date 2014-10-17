@@ -8,7 +8,7 @@ public interface OrderService {
 	 * @return
 	 * @throws java.rmi.RemoteException
 	 */
-    public String applyExecute(byte[] xml) throws Exception;
+    public byte[] applyExecute(byte[] xml) throws Exception;
 	
 	/**
 	 * 契撤
@@ -16,6 +16,6 @@ public interface OrderService {
 	 * @return
 	 * @throws java.rmi.RemoteException
 	 */
-    public String endorExecute(byte[] xml) throws Exception;
+    public byte[] endorExecute(byte[] xml) throws Exception;
 	
 }
