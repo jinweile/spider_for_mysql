@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dianping.cat.Cat;
+import com.dianping.cat.message.Transaction;
 import com.etaoshi.spider.comm.SpringContext;
 import com.etaoshi.spider.model.Source;
 import com.etaoshi.spider.service.intf.ISourceService;
@@ -42,6 +44,11 @@ public class index {
 	@RequestMapping(value = "/index", method=RequestMethod.GET)
 	public ModelAndView PageLoad(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		Transaction t = Cat.newTransaction("URL", "index");
+		Cat.logEvent("test", "look", Transaction.SUCCESS, "ok");
+		t.setStatus("Look");
+		t.complete();
+		
 		//获取统计源列表
 		List<Source> list = service.FindAll();
 		
