@@ -8,9 +8,9 @@ import java.util.Date;
 import java.math.BigDecimal;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
-
 import com.etaoshi.spider.model.SpiderColumn;
 import com.etaoshi.spider.model.Template;
+import com.etaoshi.spider.comm.SQLParamHelper;
 import com.etaoshi.spider.dao.intf.ISpiderColumnDao;
 	
 /**
@@ -73,6 +73,9 @@ public class SpiderColumnDao implements ISpiderColumnDao {
 	public List<SpiderColumn> FindByDatamodelid(Integer datamodelid) throws SQLException {
 		String stmtId = "SpiderColumn-FindByDatamodelid";
 		List<SpiderColumn> result = mapper.queryForList(stmtId, datamodelid);
+		
+		String sql = SQLParamHelper.getCurrSqlTwo(mapper, datamodelid, stmtId);
+		
 		return result;
 	}
 	
