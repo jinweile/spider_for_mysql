@@ -12,6 +12,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
+				<!-- 文件地址配置  file:E:\temp\jdbc.properties -->
 				<value>classpath:jdbc.properties</value>
 			</list>
 		</property>
