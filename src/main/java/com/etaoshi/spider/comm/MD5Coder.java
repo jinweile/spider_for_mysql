@@ -58,7 +58,7 @@ public class MD5Coder {
 	 */
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 		// TODO Auto-generated method stub
-		System.out.println(MD5Coder.encrypt16("adsfdsf"));
+		System.out.println(MD5Coder.encrypt32("123456").toLowerCase());
 	}
 
 }
