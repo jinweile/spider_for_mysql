@@ -93,6 +93,7 @@ public class HttpDown {
 		result = new String(responseBody, charset);
 
 		method.releaseConnection();
+		((SimpleHttpConnectionManager)client.getHttpConnectionManager()).shutdown();
 		return result;
 	}
 	
@@ -123,6 +124,7 @@ public class HttpDown {
 			System.out.println("no http down");
 		}
 		result = EntityUtils.toString(response.getEntity(),"UTF-8");
+		client.getConnectionManager().shutdown();
 
 		return result;
 	}
