@@ -484,11 +484,11 @@
 
 		<!-- cat Start -->
 		<dependency>
-			<groupId>com.dianping</groupId>
-			<artifactId>cat</artifactId>
-			<version>1.0.2</version>
+		  <groupId>com.dianping.cat</groupId>
+		  <artifactId>cat-client</artifactId>
+		  <version>1.2.2</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.jboss.netty</groupId>
 			<artifactId>netty</artifactId>
 			<version>3.2.5.Final</version>
@@ -503,7 +503,7 @@
 			<artifactId>test-framework</artifactId>
 			<version>2.1.0</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 		<!-- cat End -->
 
 	</dependencies>
